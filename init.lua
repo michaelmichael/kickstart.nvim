@@ -111,7 +111,7 @@ vim.keymap.set('n', '<C-j>', '<C-j>', { desc = 'Move focus to the lower window' 
 vim.keymap.set('n', '<C-k>', '<C-k>', { desc = 'Move focus to the upper window' })
 
 -- Personal Keymaps
-vim.keymap.set('n', '<leader>gg', ':LazyGit<cr>', { desc = 'Open LazyGit UI' })
+vim.keymap.set('n', '<leader>gg', ':Neogit<cr>', { desc = 'Open Lazygit' })
 vim.keymap.set('n', '<leader>v', ':e ~/.config/nvim/init.lua<cr>', { desc = 'Edit nvim config file' })
 vim.keymap.set('n', '<C-n>', ':Neotree toggle<cr>', { desc = 'Open/Close NeoTree' })
 vim.keymap.set('n', '<leader>C', ':CodeCompanionChat<cr>', { desc = 'Open Code Companion Chat' })

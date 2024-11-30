@@ -1,10 +1,44 @@
 return {
   'olimorris/codecompanion.nvim',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'nvim-treesitter/nvim-treesitter',
+    'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
+    'nvim-telescope/telescope.nvim', -- Optional: For using slash commands
+    { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } }, -- Optional: For prettier markdown rendering
+    { 'stevearc/dressing.nvim', opts = {} }, -- Optional: Improves `vim.ui.select`
+  },
   config = function()
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'CodeCompanionLoaded',
+      callback = function()
+        vim.notify 'CodeCompanion loaded successfully'
+      end,
+    })
+
     require('codecompanion').setup {
+      display = {
+        chat = {
+          render_headers = false,
+        },
+      },
+      providers = {
+        slash_commands = 'telescope',
+      },
       strategies = {
         chat = {
           adapter = 'anthropic',
+          slash_commands = {
+            ['file'] = {
+              callback = 'strategies.chat.slash_commands.file',
+              description = 'Insert a file',
+              opts = {
+                contains_code = true,
+                max_lines = 1000,
+                provider = 'telescope',
+              },
+            },
+          },
         },
         inline = {
           adapter = 'anthropic',
@@ -24,6 +58,7 @@ return {
             short_name = 'parse_commit',
             is_slash_cmd = true,
             auto_submit = true,
+            log_level = 'DEBUG',
           },
           prompts = {
             {
@@ -60,11 +95,4 @@ Given the git diff listed below, please generate a commit message for me, includ
       },
     }
   end,
-  requires = {
-    'nvim-lua/plenary.nvim',
-    'nvim-treesitter/nvim-treesitter',
-    'hrsh7th/nvim-cmp', -- Optional: For using slash commands and variables in the chat buffer
-    'stevearc/dressing.nvim', -- Optional: Improves the default Neovim UI
-    'nvim-telescope/telescope.nvim', -- Optional: For using slash commands
-  },
 }
