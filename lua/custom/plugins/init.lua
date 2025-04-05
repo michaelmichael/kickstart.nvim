@@ -12,4 +12,37 @@ vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', { noremap = true, silent = true 
 vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 
-return {}
+return {
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      formatters_by_ft = {
+        ['typescript'] = { 'prettier' },
+        ['typescriptreact'] = { 'prettier' },
+        ['javascript'] = { 'prettier' },
+        ['javascriptreact'] = { 'prettier' },
+        ['svelte'] = { 'prettier' },
+      },
+      format_on_save = {
+        timeout_ms = 3000,
+        lsp_fallback = false,
+      },
+    },
+  },
+  {
+    'neovim/nvim-lspconfig',
+    opts = {
+      servers = {
+        tsserver = {
+          settings = {
+            typescript = {
+              format = {
+                enable = false,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+}
